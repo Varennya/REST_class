@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Posts </title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <h1>Quora Posts </h1>
+    <% for(post of posts){%>
+        <div class="post">
+            <h3 class="user">@<%=post.username %></h3>
+            <!-- the above line of code inculcates js into html  -->
+            <h4 class="content"><%= post.content %></h4>
+        </div>
+        <%}%>
+        <br>
+        <a href="http://localhost:8080/posts/new">Create new Post  </a> 
+        <!-- the above anchor tag will redirect you to the new post page  -->
+</body>
+
+</html>
