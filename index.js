@@ -2,6 +2,10 @@ const express = require("express");
 const app = express()
 const port = 8080;
 const path = require("path");
+// This loads Node.js’s built-in path module.
+const { v4: uuidv4 } = require('uuid');
+ // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+// this loads the UUID package in the code which gives a universal unique ID 
 
 app.use(express.urlencoded({ extended: true }));
 //the above line allows your Express app to read form data (req.body) properly, and with extended: true, it can handle more complex/nested data structures.
@@ -17,17 +21,17 @@ app.use(express.static(path.join(__dirname, "public")));
 
 let posts = [
     {
-        id: "1a",
+        id: uuidv4(),
         username: "apna college ",
         content: "I love coding "
     },
     {
-        id: "2b",
+        id: uuidv4(),
         username: "shradha Khapra  ",
         content: "Hardwork is the road to success "
     },
     {
-        id: "3c",
+        id: uuidv4(),
         username: "varennya  ",
         content: "Keep reading "
     },
@@ -47,14 +51,15 @@ app.get("/posts/new", (req, res) => {
 app.post("/post", (req, res) => {
     let { username, content } = req.body;
     // the above line destructs the object written by the req.body in 2 different variables  
-    posts.push({ username, content });  // pushes the above data in the content array 
+    let id = uuidv4(); // creates the new Id for new posts 
+    posts.push({ id , username, content });  // pushes the above data in the content array 
     res.redirect("/posts"); // redirect to the /posts path 
 });
 
 app.get("/posts/:id" , (req,res) => {
     let { id } = req.params ; 
-    let post = posts.find((id) => id === path.id);
-    res.send("request working")
+    let post = posts.find((p) => id === p.id); // finds if the id given by user (i.e p here ) is present in the p.ar
+    res.render("show.ejs" , {post});
 })
 
 app.listen(port, () => {

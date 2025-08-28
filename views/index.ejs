@@ -15,11 +15,12 @@
             <h3 class="user">@<%=post.username %></h3>
             <!-- the above line of code inculcates js into html  -->
             <h4 class="content"><%= post.content %></h4>
+            <a href="http://localhost:8080/posts/<%= post.id %>"> See in detail</a>
         </div>
         <%}%>
         <br>
         <a href="http://localhost:8080/posts/new">Create new Post  </a> 
-        <!-- the above anchor tag will redirect you to the new post page  -->
+        <!-- the above anchor tag will redirect you to the new post page z -->
 </body>
 
 </html>
