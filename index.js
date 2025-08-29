@@ -9,9 +9,10 @@ const { v4: uuidv4 } = require('uuid');
 
 app.use(express.urlencoded({ extended: true }));
 //the above line allows your Express app to read form data (req.body) properly, and with extended: true, it can handle more complex/nested data structures.
+app.use(express.json());
 
 
-app.set("view engine ", "ejs");
+app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 // the above line tells Express where to look for view/template files (like .ejs, .pug, or .hbs).
 
@@ -23,7 +24,7 @@ let posts = [
     {
         id: uuidv4(),
         username: "apna college ",
-        content: "I love coding "
+        content: "I love coding"
     },
     {
         id: uuidv4(),
@@ -57,10 +58,21 @@ app.post("/post", (req, res) => {
 });
 
 app.get("/posts/:id" , (req,res) => {
+    
     let { id } = req.params ; 
+    // console.log(id); 
     let post = posts.find((p) => id === p.id); // finds if the id given by user (i.e p here ) is present in the p.ar
     res.render("show.ejs" , {post});
-})
+});
+
+app.patch("/posts/:id" , (req,res) => {
+    let {id } = req.params ; 
+    let newContent = req.body.content;
+    let post = posts.find((p) => id === p.id);
+    post.content = newContent;
+    console.log(post); 
+    res.send("patch request working ");
+});
 
 app.listen(port, () => {
     console.log("Listening to port : 8080");
