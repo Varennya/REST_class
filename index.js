@@ -4,12 +4,16 @@ const port = 8080;
 const path = require("path");
 // This loads Node.js’s built-in path module.
 const { v4: uuidv4 } = require('uuid');
- // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 // this loads the UUID package in the code which gives a universal unique ID 
 
+const methodOverride = require('method-override')
+app.use(methodOverride("_method"));
+// this is used to override methods
 app.use(express.urlencoded({ extended: true }));
 //the above line allows your Express app to read form data (req.body) properly, and with extended: true, it can handle more complex/nested data structures.
 app.use(express.json());
+
+ 
 
 
 app.set("view engine", "ejs");
@@ -65,13 +69,21 @@ app.get("/posts/:id" , (req,res) => {
     res.render("show.ejs" , {post});
 });
 
+
+// for editing the content of the form PATCH request is used
 app.patch("/posts/:id" , (req,res) => {
     let {id } = req.params ; 
     let newContent = req.body.content;
     let post = posts.find((p) => id === p.id);
     post.content = newContent;
     console.log(post); 
-    res.send("patch request working ");
+    res.redirect("/posts");
+});
+
+app.get("/posts/:id/edit", (req , res) => {
+    let {id } = req.params ; 
+    let post = posts.find((p) => id === p.id);
+    res.render("edit.ejs" , {post});
 });
 
 app.listen(port, () => {
